@@ -1,6 +1,6 @@
 import useValidation from "../../hooks/use-validation";
 import { useRouter } from "next/router";
-import Card from "../ui/Card";
+import Card from "../UI/Card";
 import classes from "./NewTaskForm.module.css";
 const NewTaskForm = () => {
   const router = useRouter();
