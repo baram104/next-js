@@ -1,0 +1,17 @@
+.fallback {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-top: 5rem;
+}
+
+.fallback a {
+  background-color: rgb(25, 52, 133);
+  border: 1px solid rgb(25, 52, 133);
+  padding: 0.5rem;
+  border-radius: 5px;
+  color: white;
+}
+.fallback a:hover {
+  background-color: rgb(84, 116, 212);
+  border: 1px solid rgb(82, 116, 219);
+}

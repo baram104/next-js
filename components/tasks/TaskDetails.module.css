@@ -1,0 +1,19 @@
+.task {
+  background-color: #001933;
+  color: rgb(234, 242, 245);
+  border-radius: 6px;
+  padding: 1.5rem;
+  margin: 3rem auto;
+  width: 90%;
+  height: auto;
+  max-width: 40rem;
+}
+
+.task h3 {
+  font-size: 2rem;
+}
+
+.task p {
+  font-size: 1.5rem;
+  color: #adefff;
+}
