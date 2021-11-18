@@ -1,15 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import useValidation from "../../hooks/use-validation";
 import classes from "./AuthForm.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/auth-slice";
+import useHttp from "../../hooks/use-http";
+import tasksSlice, { tasksActions } from "../../store/tasks-slice";
 
 const AuthForm = () => {
   const dispatch = useDispatch();
+  const fetchTasks = useHttp();
+  const currUser = useSelector((state) => state.auth.currentUser);
   const [isLogin, setIsLogin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(null);
+  const httpRequest = async () => {
+    console.log("clicked");
+    const res = await fetch("/api/tasks");
+    const data = await res.json();
+    const taskData = data.map((task) => {
+      return {
+        title: task.title,
+        description: task.description,
+        id: task._id.toString(),
+        currUser: task.currentUser,
+      };
+    });
+    const finalTaskData = taskData.filter(
+      (task) => task.currUser === enteredEmail
+    );
+    console.log(finalTaskData);
+    dispatch(tasksActions.setItems(finalTaskData));
+  };
 
   const router = useRouter();
   const {
@@ -82,7 +104,11 @@ const AuthForm = () => {
       .then((data) => {
         setIsLoading(false);
         router.replace("/tasks");
-        dispatch(authActions.login(data.idToken));
+        dispatch(
+          authActions.login({ token: data.idToken, currUser: enteredEmail })
+        );
+        dispatch(tasksActions.setItems());
+        fetchTasks(enteredEmail);
       })
       .catch((error) => {
         setIsLoading(false);

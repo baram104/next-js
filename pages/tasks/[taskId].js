@@ -4,37 +4,15 @@ import { Fragment } from "react";
 import Fallback from "../../components/Fallback/Fallback";
 import { useRouter } from "next/router";
 
-const DUMMY_MEALS = [
-  {
-    id: "m1",
-    name: "Buy Toilet Paper",
-    description: "Finest fish and veggies",
-  },
-  {
-    id: "m2",
-    name: "Paint the garage",
-    description: "Need to get a painting brush and some pain",
-  },
-  {
-    id: "m3",
-    name: "Barbecue Burger",
-    description: "American, raw, meaty",
-  },
-  {
-    id: "m4",
-    name: "Green Bowl",
-    description: "Healthy...and green...",
-  },
-];
-
 const TaskDetail = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const tasks = useSelector((state) => state.tasks.items);
   const router = useRouter();
   const taskId = router.query.taskId;
 
-  const currTask = DUMMY_MEALS.find((task) => task.id === taskId);
+  const currTask = tasks.find((task) => task.id === taskId);
   if (taskId) {
-    const { description, id, name } = currTask;
+    const { description, id, title } = currTask;
   }
 
   return (

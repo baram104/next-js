@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 const tasksSlice = createSlice({
   name: "tasks",
   initialState: {
@@ -6,7 +7,7 @@ const tasksSlice = createSlice({
   },
   reducers: {
     setItems(state, action) {
-      state.items.push(action.payload);
+      state.items = action.payload;
     },
     addTask(state, action) {
       state.items.push(action.payload);
