@@ -1,9 +1,10 @@
 import { MongoClient } from "mongodb";
+import { ObjectId } from "bson";
+import { current } from "immer";
 
 const handler = async (req, res) => {
   if (req.method === "POST") {
-    const data = req.body;
-    const { currentUser } = req.body;
+    const { id, currentUser } = JSON.parse(req.body);
 
     try {
       const client = await MongoClient.connect(
@@ -11,7 +12,9 @@ const handler = async (req, res) => {
       );
       const db = client.db();
       const taskCollection = db.collection(currentUser);
-      const result = await taskCollection.insertOne(data);
+      const result = await taskCollection.deleteOne({
+        _id: ObjectId(id),
+      });
       console.log(result);
       client.close();
       res.status(201).json({ message: "worked" });

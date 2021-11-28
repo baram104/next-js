@@ -13,15 +13,6 @@
   margin-bottom: 0.5rem;
 }
 
-.control input,
-.control textarea {
-  display: block;
-  font: inherit;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  padding: 0.25rem;
-  width: 100%;
-}
 .invalid input,
 .invalid textarea {
   background-color: rgb(248, 205, 205);
@@ -36,10 +27,10 @@
 .actions button {
   font: inherit;
   cursor: pointer;
-  background-color: #001933;
+  background-color: black;
   color: white;
   padding: 0.5rem 1.5rem;
-  border: 1px solid #001933;
+  border: 1px solid black;
   border-radius: 4px;
   font-weight: bold;
 }
@@ -51,8 +42,8 @@
 
 .actions button:hover,
 .actions button:active {
-  background-color: #0c4f97;
-  border-color: #0c4f97;
+  background-color: #455668;
+  border-color: #455668;
 }
 
 @keyframes task-form-appear {

@@ -3,17 +3,16 @@
   width: 95%;
   max-width: 25rem;
   border-radius: 6px;
-  background-color: #001933;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  background-color: #4f6d7a;
+  box-shadow: 0 1px 4px #4f6d7a;
   padding: 1rem;
   text-align: center;
-  color: white;
+  color: black;
   animation: login-form-appear 1s ease-out forwards;
 }
 
 .auth h1 {
   text-align: center;
-  color: white;
 }
 
 .control {
@@ -22,21 +21,22 @@
 
 .control label {
   display: block;
-  color: white;
+  /* color: white; */
   font-weight: bold;
   margin-bottom: 0.5rem;
 }
 
 .control input {
   font: inherit;
-  background-color: #99ccff;
-  color: #001933;
+  background-color: #ffffff;
+  color: #4f6d7a;
   border-radius: 4px;
   border: 1px solid white;
   width: 100%;
   text-align: left;
   padding: 0.25rem;
 }
+
 .invalid input {
   background-color: rgb(248, 205, 205);
   border-color: rgb(212, 67, 67);
@@ -53,33 +53,33 @@
   cursor: pointer;
   font: inherit;
   color: white;
-  background-color: #004c99;
-  border: 1px solid #004c99;
+  background-color: #000000;
+  border: 1px solid #000000;
   border-radius: 4px;
   padding: 0.5rem 2.5rem;
 }
 .actions button:disabled,
 .actions button:hover:disabled {
-  background-color: #acc5df;
-  border-color: #acc5df;
+  background-color: #979797;
+  border-color: #979797;
 }
 
 .actions button:hover {
-  background-color: #176ec5;
-  border-color: #176ec5;
+  background-color: #2e3131;
+  border-color: #2e3131;
 }
 
 .actions .toggle {
   margin-top: 1rem;
   background-color: transparent;
-  color: #004c99;
+  color: black;
   border: none;
   padding: 0.15rem 1.5rem;
 }
 
 .actions .toggle:hover {
   background-color: transparent;
-  color: #176ec5;
+  color: #ffffff;
 }
 @keyframes login-form-appear {
   from {

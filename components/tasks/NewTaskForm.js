@@ -3,33 +3,37 @@ import { useRouter } from "next/router";
 import Card from "../UI/Card";
 import classes from "./NewTaskForm.module.css";
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { tasksActions } from "../../store/tasks-slice";
+import { useSelector } from "react-redux";
+import TextField from "@mui/material/TextField";
 import useHttp from "../../hooks/use-http";
+import LoadingSpinner from "../UI/LoadingSpinner";
+import * as React from "react";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import DatePicker from "@mui/lab/DatePicker";
+
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+
 const NewTaskForm = () => {
-  const fetchTasks = useHttp();
-  const dispatch = useDispatch();
+  const { httpRequest } = useHttp();
   const currentUser = useSelector((state) => state.auth.currentUser);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const httpRequest = async () => {
-    console.log("clicked");
-    const res = await fetch("/api/tasks");
-    const data = await res.json();
-    const taskData = data.map((task) => {
-      return {
-        title: task.title,
-        description: task.description,
-        id: task._id.toString(),
-        currUser: task.currentUser,
-      };
-    });
-    const finalTaskData = taskData.filter(
-      (task) => task.currUser === currentUser
-    );
-    console.log(finalTaskData);
-    dispatch(tasksActions.setItems(finalTaskData));
+  const [dateValue, setDateValue] = useState(null);
+  Date.prototype.isValid = function () {
+    return this.getTime() === this.getTime();
   };
+  const {
+    isValid: isPriorityValid,
+    enteredValue: enteredPriority,
+    onBlurHandler: onPriorityBlurHandler,
+    onChangeHandler: onPriorityChangeHandler,
+  } = useValidation((value) => value);
+  const { onBlurHandler: onDateBlurHandler } = useValidation((value) => value);
 
   const {
     hasError: hasTitleError,
@@ -47,7 +51,13 @@ const NewTaskForm = () => {
   } = useValidation((value) => value.trim().length > 0);
   let formIsValid = false;
 
-  if (isTitleValid && isDescriptionValid) {
+  if (
+    isTitleValid &&
+    isDescriptionValid &&
+    isPriorityValid &&
+    dateValue &&
+    dateValue.isValid()
+  ) {
     formIsValid = true;
   }
 
@@ -57,8 +67,11 @@ const NewTaskForm = () => {
   const descriptionClasses = hasDescriptionError
     ? `${classes.control} ${classes.invalid}`
     : classes.control;
+
   const onSubmitHandler = (e) => {
     e.preventDefault();
+    console.log();
+
     if (formIsValid) {
       setIsLoading(true);
       fetch("/api/new-task", {
@@ -67,6 +80,9 @@ const NewTaskForm = () => {
           currentUser: currentUser,
           title: enteredTitle,
           description: enteredDescription,
+          priority: enteredPriority,
+          date: dateValue.toISOString().slice(0, 10),
+          checked: false,
         }),
         headers: { "Content-Type": "application/json" },
       })
@@ -77,41 +93,104 @@ const NewTaskForm = () => {
             console.log(res.json());
           }
         })
-        .then((data) => fetchTasks(currentUser))
+        .then((data) => {
+          httpRequest(currentUser);
+          router.push("/tasks");
+        })
         .catch((error) => console.log(error.message));
-
-      router.push("/tasks");
     }
   };
 
   return (
     <form className={classes.form} onSubmit={onSubmitHandler}>
       <Card>
-        <div className={titleClasses}>
-          <label htmlFor="title">Task Title</label>
-          <input
-            onChange={onTitleChangeHandler}
-            onBlur={onTitleBlurHandler}
-            type="text"
-            required
-            id="title"
-            value={enteredTitle}
-          />
-        </div>
-        <div className={descriptionClasses}>
-          <label htmlFor="description">Description</label>
-          <textarea
-            onChange={onDescriptionChangeHandler}
-            onBlur={onDescriptionBlurHandler}
-            id="description"
-            required
-            rows="5"
-            value={enteredDescription}
-          ></textarea>
-        </div>
-        <div className={classes.actions}>
-          <button disabled={!formIsValid}>Add Task</button>
-        </div>
+        <Box sx={{ minWidth: 120 }}>
+          {/* <div className={titleClasses}>
+            <label htmlFor="title">Task Title</label>
+            <input
+              onChange={onTitleChangeHandler}
+              onBlur={onTitleBlurHandler}
+              type="text"
+              required
+              id="title"
+              value={enteredTitle}
+            />
+          </div>
+          <div className={descriptionClasses}>
+            <label htmlFor="description">Description</label>
+            <textarea
+              onChange={onDescriptionChangeHandler}
+              onBlur={onDescriptionBlurHandler}
+              id="description"
+              required
+              rows="5"
+              value={enteredDescription}
+            ></textarea>
+          </div> */}
+
+          <FormControl fullWidth>
+            <TextField
+              className={titleClasses}
+              id="outlined-basic"
+              onChange={onTitleChangeHandler}
+              onBlur={onTitleBlurHandler}
+              label="Task Title"
+              variant="outlined"
+              value={enteredTitle}
+              margin="normal"
+            />
+          </FormControl>
+          <FormControl fullWidth>
+            <TextField
+              margin="normal"
+              className={descriptionClasses}
+              id="outlined-basic"
+              onChange={onDescriptionChangeHandler}
+              onBlur={onDescriptionBlurHandler}
+              label="Task Description"
+              variant="outlined"
+              value={enteredDescription}
+            />
+          </FormControl>
+
+          <FormControl sx={{ marginTop: "1rem", minWidth: 120 }}>
+            <InputLabel id="priority">Priority</InputLabel>
+            <Select
+              labelId="priority"
+              id="select"
+              value={enteredPriority}
+              label="priority"
+              onChange={onPriorityChangeHandler}
+              onBlur={onPriorityBlurHandler}
+            >
+              <MenuItem value="1">High</MenuItem>
+              <MenuItem value="2">Medium</MenuItem>
+              <MenuItem value="3">Low</MenuItem>
+            </Select>
+          </FormControl>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DatePicker
+              label="To be done by"
+              value={dateValue}
+              onChange={(newValue) => {
+                setDateValue(newValue);
+              }}
+              onBlur={onDateBlurHandler}
+              renderInput={(params) => (
+                <TextField
+                  sx={{ marginTop: "1rem", minWidth: 120, marginLeft: "1rem" }}
+                  {...params}
+                />
+              )}
+            />
+          </LocalizationProvider>
+        </Box>
+        {!isLoading && (
+          <div className={classes.actions}>
+            <button disabled={!formIsValid}>Add Task</button>
+          </div>
+        )}
+        {isLoading && <LoadingSpinner />}
       </Card>
     </form>
   );

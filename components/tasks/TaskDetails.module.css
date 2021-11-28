@@ -17,3 +17,14 @@
   font-size: 1.5rem;
   color: #adefff;
 }
+.high {
+  border: 7px solid #4f6d7a;
+}
+
+.medium {
+  border: 7px solid #c0d6df;
+}
+
+.low {
+  border: 7px solid #eaeaea;
+}

@@ -1,51 +1,70 @@
-import classes from "./MainNavigation.module.css";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/auth-slice";
 import { useRouter } from "next/router";
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 
-const MainNavigation = () => {
+export default function MainNavigation() {
   const router = useRouter();
   const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.tasks.isLoading);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const onLogoutHandler = () => {
+    if (isLoading) {
+      if (!confirm("It's still loading, are you sure you want to leave?"))
+        return;
+    }
+    router.push("/");
+    dispatch(authActions.setIsLoading(true));
     dispatch(authActions.logout());
-    router.replace("/");
+
+    dispatch(authActions.setIsLoading(false));
   };
   return (
-    <header className={classes.header}>
-      <Link href="/">
-        <div className={classes.logo}>My Tasks Log</div>
-      </Link>
-      )
-      <nav>
-        <ul>
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static" sx={{ backgroundColor: "#ea8c55" }}>
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            My Tasks Log
+          </Typography>
           {!isLoggedIn && (
-            <li>
-              <Link href="/auth">Login</Link>
-            </li>
+            <Link href="/auth">
+              <Button style={{ textTransform: "none" }} color="inherit">
+                Login
+              </Button>
+            </Link>
+          )}
+          {isLoggedIn && (
+            <Link href="/tasks">
+              <Button style={{ textTransform: "none" }} color="inherit">
+                My Tasks
+              </Button>
+            </Link>
+          )}
+          {isLoggedIn && (
+            <Link href="/tasks/new-task">
+              <Button style={{ textTransform: "none" }} color="inherit">
+                Add a Task
+              </Button>
+            </Link>
           )}
 
           {isLoggedIn && (
-            <li>
-              <Link href="/tasks">My Tasks</Link>
-            </li>
+            <Button
+              style={{ textTransform: "none", marginLeft: "3rem" }}
+              onClick={onLogoutHandler}
+              color="inherit"
+            >
+              Logout
+            </Button>
           )}
-          {isLoggedIn && (
-            <li>
-              <Link href="/tasks/new-task">Add a Task</Link>
-            </li>
-          )}
-
-          {isLoggedIn && (
-            <li>
-              <button onClick={onLogoutHandler}>Logout</button>
-            </li>
-          )}
-        </ul>
-      </nav>
-    </header>
+        </Toolbar>
+      </AppBar>
+    </Box>
   );
-};
-
-export default MainNavigation;
+}

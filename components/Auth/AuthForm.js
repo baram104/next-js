@@ -1,38 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import useValidation from "../../hooks/use-validation";
 import classes from "./AuthForm.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/auth-slice";
 import useHttp from "../../hooks/use-http";
-import tasksSlice, { tasksActions } from "../../store/tasks-slice";
+import { tasksActions } from "../../store/tasks-slice";
+import LoadingSpinner from "../UI/LoadingSpinner";
 
 const AuthForm = () => {
   const dispatch = useDispatch();
-  const fetchTasks = useHttp();
-  const currUser = useSelector((state) => state.auth.currentUser);
-  const [isLogin, setIsLogin] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasError, setHasError] = useState(null);
-  const httpRequest = async () => {
-    console.log("clicked");
-    const res = await fetch("/api/tasks");
-    const data = await res.json();
-    const taskData = data.map((task) => {
-      return {
-        title: task.title,
-        description: task.description,
-        id: task._id.toString(),
-        currUser: task.currentUser,
-      };
-    });
-    const finalTaskData = taskData.filter(
-      (task) => task.currUser === enteredEmail
-    );
-    console.log(finalTaskData);
-    dispatch(tasksActions.setItems(finalTaskData));
-  };
+  const { httpRequest } = useHttp();
 
+  const [isLogin, setIsLogin] = useState(false);
+  const isAuthLoading = useSelector((state) => state.auth.isLoading);
+  const [hasError, setHasError] = useState(null);
   const router = useRouter();
   const {
     onToggle: onEmailToggle,
@@ -65,7 +47,7 @@ const AuthForm = () => {
   let url;
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    dispatch(authActions.setIsLoading(true));
     setHasError(null);
     if (formIsValid && isLogin) {
       url =
@@ -102,17 +84,18 @@ const AuthForm = () => {
         }
       })
       .then((data) => {
-        setIsLoading(false);
         router.replace("/tasks");
+
         dispatch(
           authActions.login({ token: data.idToken, currUser: enteredEmail })
         );
         dispatch(tasksActions.setItems());
-        fetchTasks(enteredEmail);
+        httpRequest(enteredEmail);
+        dispatch(authActions.setIsLoading(false));
       })
       .catch((error) => {
-        setIsLoading(false);
         setHasError(error.message);
+        dispatch(authActions.setIsLoading(false));
       });
   };
   const onToggle = () => {
@@ -149,9 +132,8 @@ const AuthForm = () => {
           <button disabled={!formIsValid}>
             {isLogin ? "Login" : "Create Account"}
           </button>
-          {isLoading && <p>Sending request...</p>}
+          {isAuthLoading && <LoadingSpinner />}
           {hasError && <p>{hasError}</p>}
-
           <button type="button" className={classes.toggle} onClick={onToggle}>
             {isLogin ? "Create new account" : "Login with existing account"}
           </button>

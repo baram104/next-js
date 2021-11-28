@@ -9,16 +9,34 @@ const TaskDetail = () => {
   const tasks = useSelector((state) => state.tasks.items);
   const router = useRouter();
   const taskId = router.query.taskId;
+  const priorityTransformer = (taskPriority) => {
+    if (taskPriority === "1") {
+      return "high";
+    }
+    if (taskPriority === "2") {
+      return "medium";
+    }
+    if (taskPriority === "3") {
+      return "low";
+    }
+  };
 
   const currTask = tasks.find((task) => task.id === taskId);
-  if (taskId) {
-    const { description, id, title } = currTask;
+  if (currTask) {
+    const { description, id, title, date, priority } = currTask;
+  } else {
   }
 
   return (
     <Fragment>
       {isLoggedIn ? (
-        <TaskDetails id={id} title={name} description={description} />
+        <TaskDetails
+          id={id}
+          title={title}
+          description={description}
+          date={date}
+          priority={priorityTransformer(priority)}
+        />
       ) : (
         <Fallback />
       )}

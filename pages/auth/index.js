@@ -5,9 +5,15 @@ import AuthForm from "../../components/Auth/AuthForm";
 
 const Auth = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const isLoading = useSelector((state) => state.auth.isLoading);
+  let content;
+  if (!isLoggedIn) {
+    content = <AuthForm />;
+  }
+  if (!isLoading && isLoggedIn) {
+    content = <FallbackLoggedIn />;
+  }
 
-  return (
-    <Fragment>{!isLoggedIn ? <AuthForm /> : <FallbackLoggedIn />}</Fragment>
-  );
+  return <Fragment>{content}</Fragment>;
 };
 export default Auth;

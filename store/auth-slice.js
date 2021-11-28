@@ -6,6 +6,7 @@ const authSlice = createSlice({
     token: null,
     isLoggedIn: false,
     currentUser: null,
+    isLoading: false,
   },
   reducers: {
     login(state, action) {
@@ -18,6 +19,10 @@ const authSlice = createSlice({
     logout(state) {
       state.token = null;
       state.isLoggedIn = false;
+      state.currentUser = null;
+    },
+    setIsLoading(state, action) {
+      state.isLoading = action.payload;
     },
   },
 });

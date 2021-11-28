@@ -1,9 +1,9 @@
 import { MongoClient } from "mongodb";
+import { ObjectId } from "bson";
 
 const handler = async (req, res) => {
   if (req.method === "POST") {
-    const data = req.body;
-    const { currentUser } = req.body;
+    const { id, checked, currentUser } = JSON.parse(req.body);
 
     try {
       const client = await MongoClient.connect(
@@ -11,8 +11,13 @@ const handler = async (req, res) => {
       );
       const db = client.db();
       const taskCollection = db.collection(currentUser);
-      const result = await taskCollection.insertOne(data);
-      console.log(result);
+      const foundTask = await taskCollection.updateOne(
+        {
+          _id: ObjectId(id),
+        },
+        { $set: { checked: !checked } }
+      );
+      console.log(foundTask);
       client.close();
       res.status(201).json({ message: "worked" });
     } catch (error) {

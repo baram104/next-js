@@ -11,6 +11,54 @@
   padding: 0;
 }
 
+.high {
+  background-color: #4f6d7a;
+}
+.high:first-child {
+  background-color: #4f6d7a;
+  border-radius: 5px 5px 0 0;
+}
+.high:first-child:last-child {
+  background-color: #4f6d7a;
+  border-radius: 5px;
+}
+
+.high:last-child:not(:first-child) {
+  background-color: #4f6d7a;
+  border-radius: 0 0 5px 5px;
+}
+.medium {
+  background-color: #c0d6df;
+}
+.medium:first-child {
+  background-color: #c0d6df;
+  border-radius: 5px 5px 0 0;
+}
+.medium:first-child:last-child {
+  background-color: #c0d6df;
+  border-radius: 5px;
+}
+.medium:last-child:not(:first-child) {
+  background-color: #c0d6df;
+  border-radius: 0 0 5px 5px;
+}
+.low {
+  background-color: #eaeaea;
+}
+
+.low:first-child {
+  background-color: #eaeaea;
+  border-radius: 5px 5px 0 0;
+}
+.low:first-child:last-child {
+  background-color: #eaeaea;
+  border-radius: 5px;
+}
+.low:last-child:not(:first-child) {
+  background-color: #eaeaea;
+  border-radius: 0 0 5px 5px;
+}
+
 @keyframes tasks-appear {
   from {
     opacity: 0;
