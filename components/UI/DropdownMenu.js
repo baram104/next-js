@@ -40,17 +40,17 @@ export default function DropdownMenu(props) {
           "aria-labelledby": "basic-button",
         }}
       >
-        <Link href="/tasks">
+        <Link href="/tasks" passHref={true}>
           <MenuItem value="myTasks" onClick={handleClose}>
             My Tasks
           </MenuItem>
         </Link>
-        <Link href="/tasks/new-task">
+        <Link href="/tasks/new-task" passHref={true}>
           <MenuItem value="addTask" onClick={handleClose}>
             Add Task
           </MenuItem>
         </Link>
-        <Link href="/">
+        <Link href="/" passHref={true}>
           <MenuItem value="logout" onClick={onLogoutHandler}>
             Logout
           </MenuItem>

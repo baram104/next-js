@@ -1,12 +1,12 @@
 .menu {
   display: none;
 }
-.responsive_class {
+.responsive {
   display: inline-block;
 }
 
 @media screen and (max-width: 992px) {
-  .responsive_class {
+  .responsive {
     display: none;
   }
   .menu {

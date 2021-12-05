@@ -122,7 +122,7 @@ export default function TasksDetails(props) {
         >
           Delete
         </Button>
-        <Link href={"/tasks"}>
+        <Link href={"/tasks"} passHref={true}>
           <Button
             sx={{ fontWeight: "bold" }}
             color="primary"
