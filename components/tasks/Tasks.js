@@ -105,7 +105,7 @@ export default function Tasks() {
     }
     return (
       <ListItem
-        className={`${styles[itemBackgroundClasses]}`}
+        // className={`${styles[itemBackgroundClasses]}`}
         className={styles.listitem}
         sx={{ backgroundColor: "transparent" }}
         key={task.id}
