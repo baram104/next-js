@@ -44,7 +44,7 @@ export default function MainNavigation(props) {
           {isLoggedIn && (
             <Link href="/tasks" passHref={true}>
               <Button
-                sx={{ textTransform: "none" }}
+                // sx={{ textTransform: "none" }}
                 color="inherit"
                 className={classes.responsive}
               >
@@ -55,7 +55,7 @@ export default function MainNavigation(props) {
           {isLoggedIn && (
             <Link href="/tasks/new-task" passHref={true}>
               <Button
-                sx={{ textTransform: "none" }}
+                // sx={{ textTransform: "none" }}
                 color="inherit"
                 className={classes.responsive}
               >
@@ -66,7 +66,7 @@ export default function MainNavigation(props) {
 
           {isLoggedIn && (
             <Button
-              sx={{ textTransform: "none", marginLeft: "3rem" }}
+              // sx={{ textTransform: "none", marginLeft: "3rem" }}
               onClick={onLogoutHandler}
               color="inherit"
               className={classes.responsive}
