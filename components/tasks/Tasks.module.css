@@ -10,52 +10,70 @@
   margin: 0;
   padding: 0;
 }
+.checkbox-high {
+  color: red;
+}
+.checkbox-medium {
+  color: orange;
+}
+.checkbox-low {
+  color: lightgreen;
+}
+.listitem:not(:last-child) {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+hr.style:not(:last-child) {
+  border: 0;
+  height: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
 
 .high {
-  background-color: #4f6d7a;
+  background-color: red;
 }
 .high:first-child {
-  background-color: #4f6d7a;
+  background-color: red;
   border-radius: 5px 5px 0 0;
 }
 .high:first-child:last-child {
-  background-color: #4f6d7a;
+  background-color: red;
   border-radius: 5px;
 }
 
 .high:last-child:not(:first-child) {
-  background-color: #4f6d7a;
+  background-color: red;
   border-radius: 0 0 5px 5px;
 }
 .medium {
-  background-color: #c0d6df;
+  background-color: orange;
 }
 .medium:first-child {
-  background-color: #c0d6df;
+  background-color: orange;
   border-radius: 5px 5px 0 0;
 }
 .medium:first-child:last-child {
-  background-color: #c0d6df;
+  background-color: orange;
   border-radius: 5px;
 }
 .medium:last-child:not(:first-child) {
-  background-color: #c0d6df;
+  background-color: orange;
   border-radius: 0 0 5px 5px;
 }
 .low {
-  background-color: #eaeaea;
+  background-color: lightgreen;
 }
 
 .low:first-child {
-  background-color: #eaeaea;
+  background-color: lightgreen;
   border-radius: 5px 5px 0 0;
 }
 .low:first-child:last-child {
-  background-color: #eaeaea;
+  background-color: lightgreen;
   border-radius: 5px;
 }
 .low:last-child:not(:first-child) {
-  background-color: #eaeaea;
+  background-color: lightgreen;
   border-radius: 0 0 5px 5px;
 }
 

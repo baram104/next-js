@@ -2,16 +2,19 @@ import classes from "./TaskDetails.module.css";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { tasksActions } from "../../store/tasks-slice";
-import DeleteIcon from "@mui/icons-material/Delete";
+
 import { useRouter } from "next/router";
 import useHttp from "../../hooks/use-http";
+
+import CardActions from "@mui/material/CardActions";
+
+import { CardHeader } from "@mui/material";
 
 // const TaskDetails = (props) => {
 //   return (
@@ -48,38 +51,88 @@ export default function TasksDetails(props) {
       .then((data) => httpRequest(currentUser));
     router.replace("/tasks");
   };
+
   return (
+    // <Card
+    //   sx={{
+    //     minWidth: 275,
+    //     maxWidth: 500,
+    //     textAlign: "center",
+    //     margin: "auto",
+    //     marginTop: "5rem",
+    //     boxShadow: "0 2px 8px rgba(0, 0, 0, 0.25)",
+    //     borderRadius: "14px",
+    //   }}
+    //   className={classes[props.priority]}
+    // >
+    //   <CardContent>
+    //     <Typography variant="h5" component="div">
+    //       {props.title}
+    //     </Typography>
+    //     <Typography sx={{ mb: 1.5 }} color="text.secondary">
+    //       {props.date} <FontAwesomeIcon icon={faHourglassEnd} spin />
+    //     </Typography>
+    //     <Typography variant="body2">{props.description}</Typography>
+
+    //     <Button
+    //       onClick={onDeleteHandler}
+    //       style={{ fontWeight: "bold", color: "#c91c23", marginTop: "1rem" }}
+    //     >
+    //       Delete
+    //       <DeleteIcon style={{ marginLeft: "1rem" }} />
+    //     </Button>
+    //     <br />
+    //     <Link href={"/tasks"}>
+    //       <Button style={{ marginTop: "1rem" }}>Go back</Button>
+    //     </Link>
+    //   </CardContent>
+    // </Card>
     <Card
       sx={{
-        minWidth: 275,
-        maxWidth: 500,
-        textAlign: "center",
+        maxWidth: 345,
         margin: "auto",
         marginTop: "5rem",
+        boxShadow: " 0 2px 8px rgba(0, 0, 0, 0.25)",
+        borderRadius: "14px",
       }}
-      className={classes[props.priority]}
     >
+      <CardHeader
+        // className={classes[props.priority]}
+        sx={{ backgroundColor: "#161853" }}
+        titleTypographyProps={{
+          color: "white",
+          fontWeight: "bold",
+        }}
+        title={props.title}
+        subheader={`Due date - ${props.date}`}
+        subheaderTypographyProps={{
+          color: "white",
+        }}
+      />
       <CardContent>
-        <Typography variant="h5" component="div">
-          {props.title}
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          To be done by {props.date}
-        </Typography>
         <Typography variant="body2">{props.description}</Typography>
-
+      </CardContent>
+      <CardActions>
         <Button
+          variant="outlined"
+          sx={{ fontWeight: "bold" }}
+          color="secondary"
           onClick={onDeleteHandler}
-          style={{ fontWeight: "bold", color: "#c91c23", marginTop: "1rem" }}
+          size="small"
         >
           Delete
-          <DeleteIcon style={{ marginLeft: "1rem" }} />
         </Button>
-        <br />
         <Link href={"/tasks"}>
-          <Button style={{ marginTop: "1rem" }}>Go back</Button>
+          <Button
+            sx={{ fontWeight: "bold" }}
+            color="primary"
+            variant="outlined"
+            size="small"
+          >
+            Go back
+          </Button>
         </Link>
-      </CardContent>
+      </CardActions>
     </Card>
   );
 }

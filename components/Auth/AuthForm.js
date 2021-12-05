@@ -7,12 +7,13 @@ import { authActions } from "../../store/auth-slice";
 import useHttp from "../../hooks/use-http";
 import { tasksActions } from "../../store/tasks-slice";
 import LoadingSpinner from "../UI/LoadingSpinner";
+import Card from "../UI/Card";
 
 const AuthForm = () => {
   const dispatch = useDispatch();
   const { httpRequest } = useHttp();
 
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const isAuthLoading = useSelector((state) => state.auth.isLoading);
   const [hasError, setHasError] = useState(null);
   const router = useRouter();
@@ -135,7 +136,13 @@ const AuthForm = () => {
           {isAuthLoading && <LoadingSpinner />}
           {hasError && <p>{hasError}</p>}
           <button type="button" className={classes.toggle} onClick={onToggle}>
-            {isLogin ? "Create new account" : "Login with existing account"}
+            {isLogin ? (
+              <p>
+                Don't have an account? <br /> Create new account
+              </p>
+            ) : (
+              "Login with existing account"
+            )}
           </button>
         </div>
       </form>

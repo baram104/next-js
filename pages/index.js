@@ -1,10 +1,19 @@
+import { useSelector } from "react-redux";
+import FallbackLoggedIn from "../components/Fallback/FallbackLoggedin";
 import { Fragment } from "react";
-const HomePage = () => {
-  return (
-    <Fragment>
-      <h1>Welcome to Home page</h1>
-    </Fragment>
-  );
-};
+import AuthForm from "../components/Auth/AuthForm";
 
-export default HomePage;
+const Auth = () => {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const isLoading = useSelector((state) => state.auth.isLoading);
+  let content;
+  if (!isLoggedIn) {
+    content = <AuthForm />;
+  }
+  if (!isLoading && isLoggedIn) {
+    content = <FallbackLoggedIn />;
+  }
+
+  return <Fragment>{content}</Fragment>;
+};
+export default Auth;

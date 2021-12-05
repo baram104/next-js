@@ -11,7 +11,6 @@ import * as React from "react";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
-
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -25,7 +24,10 @@ const NewTaskForm = () => {
   const router = useRouter();
   const [dateValue, setDateValue] = useState(null);
   Date.prototype.isValid = function () {
-    return this.getTime() === this.getTime();
+    console.log(new Date() < this);
+    if (this.getTime() === this.getTime()) {
+      return new Date() < this;
+    }
   };
   const {
     isValid: isPriorityValid,
@@ -67,6 +69,13 @@ const NewTaskForm = () => {
   const descriptionClasses = hasDescriptionError
     ? `${classes.control} ${classes.invalid}`
     : classes.control;
+  const startDate = new Date();
+  function disablePrevDates(startDate) {
+    const startSeconds = Date.parse(startDate);
+    return (date) => {
+      return Date.parse(date) < startSeconds;
+    };
+  }
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
@@ -105,29 +114,6 @@ const NewTaskForm = () => {
     <form className={classes.form} onSubmit={onSubmitHandler}>
       <Card>
         <Box sx={{ minWidth: 120 }}>
-          {/* <div className={titleClasses}>
-            <label htmlFor="title">Task Title</label>
-            <input
-              onChange={onTitleChangeHandler}
-              onBlur={onTitleBlurHandler}
-              type="text"
-              required
-              id="title"
-              value={enteredTitle}
-            />
-          </div>
-          <div className={descriptionClasses}>
-            <label htmlFor="description">Description</label>
-            <textarea
-              onChange={onDescriptionChangeHandler}
-              onBlur={onDescriptionBlurHandler}
-              id="description"
-              required
-              rows="5"
-              value={enteredDescription}
-            ></textarea>
-          </div> */}
-
           <FormControl fullWidth>
             <TextField
               className={titleClasses}
@@ -153,7 +139,9 @@ const NewTaskForm = () => {
             />
           </FormControl>
 
-          <FormControl sx={{ marginTop: "1rem", minWidth: 120 }}>
+          <FormControl
+            sx={{ marginTop: "1rem", minWidth: 120, marginRight: "1rem" }}
+          >
             <InputLabel id="priority">Priority</InputLabel>
             <Select
               labelId="priority"
@@ -170,15 +158,16 @@ const NewTaskForm = () => {
           </FormControl>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
-              label="To be done by"
+              label="Due date"
               value={dateValue}
               onChange={(newValue) => {
                 setDateValue(newValue);
               }}
+              shouldDisableDate={disablePrevDates(startDate)}
               onBlur={onDateBlurHandler}
               renderInput={(params) => (
                 <TextField
-                  sx={{ marginTop: "1rem", minWidth: 120, marginLeft: "1rem" }}
+                  sx={{ marginTop: "1rem", minWidth: 120 }}
                   {...params}
                 />
               )}

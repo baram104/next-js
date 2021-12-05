@@ -27,23 +27,24 @@
 .actions button {
   font: inherit;
   cursor: pointer;
-  background-color: black;
+  background-color: #161853;
   color: white;
   padding: 0.5rem 1.5rem;
-  border: 1px solid black;
+  border: 1px solid #161853;
   border-radius: 4px;
   font-weight: bold;
 }
 .actions button:disabled,
 .actions button:hover:disabled {
-  background-color: #acc5df;
-  border-color: #acc5df;
+  background-color: #878bd2;
+  border-color: #878bd2;
+  cursor: not-allowed;
 }
 
 .actions button:hover,
 .actions button:active {
-  background-color: #455668;
-  border-color: #455668;
+  background-color: #292c6d;
+  border-color: #292c6d;
 }
 
 @keyframes task-form-appear {

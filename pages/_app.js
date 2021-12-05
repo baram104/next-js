@@ -5,17 +5,19 @@ import { Provider } from "react-redux";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+
 const theme = createTheme({
   typography: {
-    fontFamily: "Arima Madurai",
-    fontSize: 22,
+    fontFamily: "Roboto",
+    fontSize: 14,
   },
   palette: {
     primary: {
-      main: "#020122",
+      main: "#161853",
     },
+
     secondary: {
-      main: "#eaeaea",
+      main: "#EC255A",
     },
   },
 });

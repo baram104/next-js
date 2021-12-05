@@ -10,24 +10,31 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 import { tasksActions } from "../../store/tasks-slice";
-import Toggle from "../UI/Toggle";
 import { Button } from "@mui/material";
-import { Zoom } from "@mui/material";
+import Card from "../UI/Card";
+import SortBy from "../UI/SortBy";
+import { ListItemIcon } from "@mui/material";
+import CircleIcon from "@mui/icons-material/Circle";
+import CircleOutlinedIcon from "@mui/icons-material/CircleOutlined";
+import AddIcon from "@mui/icons-material/Add";
+import { margin } from "@mui/system";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 const useStyles = makeStyles({
   root: {
-    margin: "auto",
-    marginTop: "2rem",
-    marginBottom: "5rem",
-    borderRadius: "5px",
-    paddingTop: 0,
-    paddingBottom: 0,
+    // margin: "auto",
+    // float: "right",
+    // marginTop: "2rem",
+    // marginBottom: "5rem",
+    // borderRadius: "5px",
+    // paddingTop: 0,
+    // paddingBottom: 0,
   },
 });
 
 export default function Tasks() {
   const classes = useStyles();
-  const [isShown, setIsShown] = React.useState(false);
   const { hasError, httpRequest } = useHttp();
   const tasks = useSelector((state) => state.tasks.items);
   const checkedItems = useSelector((state) => state.tasks.checkedItems);
@@ -65,9 +72,6 @@ export default function Tasks() {
 
     setChecked(newChecked);
   };
-  const onToggleSortOptions = () => {
-    setIsShown((prev) => !prev);
-  };
   const priorityTransformer = (taskPriority) => {
     if (taskPriority === "1") {
       return "high";
@@ -79,68 +83,128 @@ export default function Tasks() {
       return "low";
     }
   };
-  const tasksList =
-    !isTasksLoading && tasks.length > 0 ? (
-      tasks.map((task) => {
-        const labelId = `checkbox-list-secondary-label-${task.id}`;
-        const itemBackgroundClasses = priorityTransformer(task.priority);
-        return (
-          <ListItem
-            className={`${styles[itemBackgroundClasses]}`}
-            key={task.id}
-            secondaryAction={
-              <Checkbox
-                edge="end"
-                onChange={handleToggle(task)}
-                checked={checked.indexOf(task) !== -1}
-                inputProps={{ "aria-labelledby": labelId }}
-                sx={{ color: "black" }}
+  const tasksList = tasks.map((task) => {
+    const labelId = `checkbox-list-label-${task.id}`;
+    const itemBackgroundClasses = priorityTransformer(task.priority);
+    const daysLeftDiff = new Date(task.date).getTime() - new Date().getTime();
+    const daysLeft = Math.floor(daysLeftDiff / (1000 * 3600 * 24)) + 1;
+    let daysLeftContent;
+    if (daysLeft > 0 && daysLeft < 8) {
+      daysLeftContent = (
+        <p style={{ fontSize: "0.8rem", color: "#EC255A" }}>
+          {daysLeft} days to complete the task
+        </p>
+      );
+    }
+    if (daysLeft === 0) {
+      daysLeftContent = (
+        <p style={{ fontSize: "0.8rem", color: "#EC255A" }}>
+          Task has to be completed today!
+        </p>
+      );
+    }
+    return (
+      <ListItem
+        className={`${styles[itemBackgroundClasses]}`}
+        className={styles.listitem}
+        sx={{ backgroundColor: "transparent" }}
+        key={task.id}
+        disablePadding
+      >
+        <ListItemIcon>
+          <Checkbox
+            edge="end"
+            sx={{
+              margin: "auto",
+              textAlign: "center",
+              justifyContent: "center",
+              alignContent: "center",
+              alignItems: "center",
+            }}
+            icon={
+              <CheckCircleOutlineIcon
+                className={`${styles["checkbox-" + itemBackgroundClasses]}`}
               />
             }
-            disablePadding
-          >
-            <Link href={`/tasks/${task.id}`}>
-              <ListItemButton>
-                <ListItemText id={labelId} primary={task.title} />
-              </ListItemButton>
-            </Link>
-          </ListItem>
-        );
-      })
-    ) : (
-      <p style={{ textAlign: "center", padding: "20px" }}>Add new tasks</p>
+            checkedIcon={
+              <CheckCircleIcon
+                className={`${styles["checkbox-" + itemBackgroundClasses]}`}
+              />
+            }
+            onChange={handleToggle(task)}
+            checked={checked.indexOf(task) !== -1}
+            inputProps={{ "aria-labelledby": labelId }}
+          />
+        </ListItemIcon>
+        <Link href={`/tasks/${task.id}`}>
+          <ListItemButton>
+            <ListItemText
+              id={labelId}
+              primary={task.title}
+              secondary={`Final date - ${task.date}`}
+            />
+            {daysLeftContent}
+          </ListItemButton>
+        </Link>
+      </ListItem>
     );
+  });
+  // const fallbackMessage = (
+  //   <Link href={"/tasks/new-task"}>
+  //     <Button
+  //       style={{
+  //         textAlign: "center",
+  //         // padding: "20px",
+  //         margin: "auto",
+  //         display: "block",
+  //         justifyContent: "center",
+  //       }}
+  //     >
+  //       Add new tasks
+  //     </Button>
+  //   </Link>
+  // );
 
   return (
     <React.Fragment>
-      <Button
-        onClick={onToggleSortOptions}
-        variant="outlined"
-        sx={{
-          margin: "auto",
-          display: "block",
-          marginTop: "3rem",
-          marginBottom: "1rem",
-        }}
-      >
-        Sort By
-      </Button>
+      <Card>
+        {!isTasksLoading && tasks.length > 0 && <SortBy />}
+        {/* {!isTasksLoading && fallbackMessage && tasks.length === 0} */}
 
-      <Zoom in={isShown} mountOnEnter unmountOnExit>
-        <div>
-          <Toggle />
-        </div>
-      </Zoom>
+        <List
+          className={classes.root}
+          dense
+          sx={{
+            // width: "90%",
+            // maxWidth: "calc(100%-240px)",
+            minWidth: "0",
+            // flexGrow: 1,
+            // float: "right",
+            // p: 3,
+          }}
+        >
+          {/* {!isTasksLoading && tasksList} */}
+          {!isTasksLoading && tasks.length > 0 && tasksList}
+          <ListItem
+            // className={`${styles[itemBackgroundClasses]}`}
+            className={styles.listitem}
+            sx={{ backgroundColor: "transparent" }}
+            key={"lastTask"}
+            disablePadding
+          >
+            <Link href="/tasks/new-task">
+              <ListItemButton>
+                <AddIcon
+                  fontSize="large"
+                  sx={{ color: "#161853", margin: "auto" }}
+                />
+              </ListItemButton>
+            </Link>
+          </ListItem>
 
-      <List
-        className={classes.root}
-        dense
-        sx={{ width: "90%", maxWidth: 600, bgcolor: "background.paper" }}
-      >
-        {!isTasksLoading && tasksList}
-
-        {hasError && <p>{hasError}</p>}
-      </List>
+          {hasError && <p>{hasError}</p>}
+        </List>
+      </Card>
     </React.Fragment>
   );
 }

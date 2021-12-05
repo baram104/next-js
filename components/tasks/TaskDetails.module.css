@@ -18,13 +18,16 @@
   color: #adefff;
 }
 .high {
-  border: 7px solid #4f6d7a;
+  border: 3px solid #e7187a;
+  background-color: #e7187a;
 }
 
 .medium {
-  border: 7px solid #c0d6df;
+  border: 3px solid #e2e718;
+  background-color: #e2e718;
 }
 
 .low {
-  border: 7px solid #eaeaea;
+  border: 3px solid #18e785;
+  background-color: #18e785;
 }

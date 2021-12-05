@@ -9,7 +9,7 @@ const MyTasks = () => {
   const isAuthLoading = useSelector((state) => state.auth.isLoading);
   const isTasksLoading = useSelector((state) => state.tasks.isLoading);
   let content;
-  if (isTasksLoading) {
+  if (isTasksLoading || isAuthLoading) {
     content = <LoadingSpinner />;
   }
   if (isLoggedIn && !isTasksLoading) {
