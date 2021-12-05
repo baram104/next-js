@@ -6,7 +6,7 @@ const Fallback = () => {
   return (
     <div className={classes.fallback}>
       <p>You need to log in first</p>
-      <Link href="/">
+      <Link href="/" passHref={true}>
         <Button color="primary" variant="contained">
           Login
         </Button>

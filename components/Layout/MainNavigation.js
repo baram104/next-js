@@ -35,14 +35,14 @@ export default function MainNavigation(props) {
             My Tasks Log
           </Typography>
           {!isLoggedIn && (
-            <Link href="/">
+            <Link href="/" passHref={true}>
               <Button style={{ textTransform: "none" }} color="inherit">
                 Login
               </Button>
             </Link>
           )}
           {isLoggedIn && (
-            <Link href="/tasks">
+            <Link href="/tasks" passHref={true}>
               <Button
                 className={classes.responsive_class}
                 style={{ textTransform: "none" }}
@@ -53,7 +53,7 @@ export default function MainNavigation(props) {
             </Link>
           )}
           {isLoggedIn && (
-            <Link href="/tasks/new-task">
+            <Link href="/tasks/new-task" passHref={true}>
               <Button
                 className={classes.responsive_class}
                 style={{ textTransform: "none" }}

@@ -136,7 +136,7 @@ export default function Tasks() {
             inputProps={{ "aria-labelledby": labelId }}
           />
         </ListItemIcon>
-        <Link href={`/tasks/${task.id}`}>
+        <Link href={`/tasks/${task.id}`} passHref={true}>
           <ListItemButton>
             <ListItemText
               id={labelId}
@@ -192,7 +192,7 @@ export default function Tasks() {
             key={"lastTask"}
             disablePadding
           >
-            <Link href="/tasks/new-task">
+            <Link href="/tasks/new-task" passHref={true}>
               <ListItemButton>
                 <AddIcon
                   fontSize="large"
