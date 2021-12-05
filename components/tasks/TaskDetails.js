@@ -115,7 +115,7 @@ export default function TasksDetails(props) {
       <CardActions>
         <Button
           variant="outlined"
-          sx={{ fontWeight: "bold" }}
+          sx={{ fontWeight: "bold", marginRight: "0.5rem" }}
           color="secondary"
           onClick={onDeleteHandler}
           size="small"
