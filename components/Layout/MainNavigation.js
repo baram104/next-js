@@ -35,7 +35,7 @@ export default function MainNavigation(props) {
             My Tasks Log
           </Typography>
           {!isLoggedIn && (
-            <Link href="/auth">
+            <Link href="/">
               <Button style={{ textTransform: "none" }} color="inherit">
                 Login
               </Button>
