@@ -43,36 +43,33 @@ export default function MainNavigation(props) {
           )}
           {isLoggedIn && (
             <Link href="/tasks" passHref={true}>
-              <Button
-                // sx={{ textTransform: "none" }}
-                color="inherit"
-                className={classes.responsive}
-              >
-                My Tasks
-              </Button>
+              <div className={classes.responsive}>
+                <Button sx={{ textTransform: "none" }} color="inherit">
+                  My Tasks
+                </Button>
+              </div>
             </Link>
           )}
           {isLoggedIn && (
             <Link href="/tasks/new-task" passHref={true}>
-              <Button
-                // sx={{ textTransform: "none" }}
-                color="inherit"
-                className={classes.responsive}
-              >
-                Add a Task
-              </Button>
+              <div className={classes.responsive}>
+                <Button sx={{ textTransform: "none" }} color="inherit">
+                  Add a Task
+                </Button>
+              </div>
             </Link>
           )}
 
           {isLoggedIn && (
-            <Button
-              // sx={{ textTransform: "none", marginLeft: "3rem" }}
-              onClick={onLogoutHandler}
-              color="inherit"
-              className={classes.responsive}
-            >
-              Logout
-            </Button>
+            <div className={classes.responsive}>
+              <Button
+                sx={{ textTransform: "none", marginLeft: "3rem" }}
+                onClick={onLogoutHandler}
+                color="inherit"
+              >
+                Logout
+              </Button>
+            </div>
           )}
           {isLoggedIn && (
             <DropdownMenu onLogout={onLogoutHandler} className={classes.menu} />
