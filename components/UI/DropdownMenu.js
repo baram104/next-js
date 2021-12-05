@@ -10,7 +10,6 @@ export default function DropdownMenu(props) {
   const onLogoutHandler = () => {
     props.onLogout();
     setAnchorEl(null);
-    console.log("clicked");
   };
 
   const open = Boolean(anchorEl);
