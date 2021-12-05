@@ -7,7 +7,6 @@ import { authActions } from "../../store/auth-slice";
 import useHttp from "../../hooks/use-http";
 import { tasksActions } from "../../store/tasks-slice";
 import LoadingSpinner from "../UI/LoadingSpinner";
-import Card from "../UI/Card";
 
 const AuthForm = () => {
   const dispatch = useDispatch();
@@ -138,7 +137,7 @@ const AuthForm = () => {
           <button type="button" className={classes.toggle} onClick={onToggle}>
             {isLogin ? (
               <p>
-                Don't have an account? <br /> Create new account
+                Do not have an account? <br /> Create new account
               </p>
             ) : (
               "Login with existing account"
