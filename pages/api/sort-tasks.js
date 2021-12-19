@@ -20,7 +20,7 @@ const handler = async (req, res) => {
       //   });
       taskCollection.drop();
       const sortedTasksFinal = await taskCollection.insertMany(sortedTasks);
-      console.log(sortedTasksFinal);
+
       client.close();
       res.status(200).json({ sortedTasks });
     } catch (error) {

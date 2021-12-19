@@ -17,7 +17,7 @@ const handler = async (req, res) => {
         },
         { $set: { checked: !checked } }
       );
-      console.log(foundTask);
+
       client.close();
       res.status(201).json({ message: "worked" });
     } catch (error) {

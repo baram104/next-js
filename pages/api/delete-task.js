@@ -1,6 +1,5 @@
 import { MongoClient } from "mongodb";
 import { ObjectId } from "bson";
-import { current } from "immer";
 
 const handler = async (req, res) => {
   if (req.method === "POST") {
